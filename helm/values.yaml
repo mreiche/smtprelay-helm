@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: mreiche/smtprelay
+  repository: mreiche/smtprelay-oci
   pullPolicy: IfNotPresent
   # Defaults to Chart.appVersion when empty
   tag: ""
