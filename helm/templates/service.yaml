@@ -11,5 +11,10 @@ spec:
       port: {{ .Values.service.port }}
       targetPort: smtp
       protocol: TCP
+    {{ if .Values.serviceMonitor.enabled }}
+    - name: metrics
+      port: 8080
+      targetPort: 8080
+    {{ end }}
   selector:
     {{- include "smtprelay.selectorLabels" . | nindent 4 }}
