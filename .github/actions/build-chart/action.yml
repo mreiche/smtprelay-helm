@@ -40,6 +40,6 @@ runs:
 
     - name: Push chart to GHCR
       run: |
-        chart_repository="$(printf '%s' "$IMAGE_NAME" | tr '[:upper:]' '[:lower:]')"
+        chart_repository="$(printf '%s' "$CHART_NAME" | tr '[:upper:]' '[:lower:]')"
         helm push ./smtprelay-*.tgz "oci://${REGISTRY}/${chart_repository}"
       shell: bash
