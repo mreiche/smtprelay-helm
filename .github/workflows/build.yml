@@ -2,7 +2,8 @@ name: Build
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  #IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: smtprelay
 
 on:
   push:
