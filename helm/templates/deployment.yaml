@@ -12,8 +12,6 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
-        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
         {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -42,11 +40,6 @@ spec:
           args:
             - -config
             - /usr/local/smtprelay.ini
-          {{ if or .Values.existingSecret .Values.remoteUser .Values.remotePass }}
-          envFrom:
-            - secretRef:
-                name: {{ .Values.existingSecret | default (include "smtprelay.fullname" .) }}
-          {{ end }}
           ports:
             - name: smtp
               containerPort: {{ .Values.service.port }}
@@ -70,8 +63,8 @@ spec:
               readOnly: true
       volumes:
         - name: config
-          configMap:
-            name: {{ include "smtprelay.fullname" . }}
+          secret:
+            secretName: {{ include "smtprelay.fullname" . }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
