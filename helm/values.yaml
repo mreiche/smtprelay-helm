@@ -29,7 +29,7 @@ service:
 
 # Secret smtprelay.ini keys (templated)
 config:
-  listen: "127.0.0.1:{{ .Values.service.port }}"
+  listen: "0.0.0.0:{{ .Values.service.port }}"
   allowed_nets: "10.0.0.0/8"
   log_level: info
   hostname: "{{ .Release.Name }}"
@@ -43,6 +43,10 @@ secret:
   remoteUser: ""
   # -- Value for REMOTE_PASS
   remotePassword: ""
+
+# -- Additional environment variables (templated)
+extraEnv:
+  OTEL_SDK_DISABLED: "true"
 
 resources: {}
   # limits:

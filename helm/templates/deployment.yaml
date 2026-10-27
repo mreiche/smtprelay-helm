@@ -1,3 +1,4 @@
+{{ $context := . }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -43,6 +44,11 @@ spec:
           envFrom:
             - secretRef:
                 name: {{ ternary (tpl .Values.secret.existingSecret .) (include "smtprelay.fullname" .) (gt (len .Values.secret.existingSecret) 0) }}
+          env:
+          {{- range $name, $value := .Values.extraEnv }}
+            - name: {{ $name }}
+              value: {{ tpl $value $context }}
+          {{ end }}
           ports:
             - name: smtp
               containerPort: {{ .Values.service.port }}
