@@ -1,2 +1,5 @@
-# docker-smtp-relay-helm
-Helm Chart for cplieger/docker-smtp-relay
+# smtprelay-helm
+
+Container image and Helm chart for [grafana/smtprelay](https://github.com/grafana/smtprelay).
+
+See [`helm/README.md`](./helm/README.md) for values.

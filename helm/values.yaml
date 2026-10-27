@@ -1,0 +1,76 @@
+replicaCount: 1
+
+image:
+  repository: docker.io/grafana/smtprelay
+  pullPolicy: IfNotPresent
+  # Defaults to Chart.appVersion when empty
+  tag: 2.5.4
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: false
+  automount: false
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 2525
+
+# Secret smtprelay.ini keys (templated)
+config:
+  listen: "0.0.0.0:{{ .Values.service.port }}"
+  allowed_nets: "10.0.0.0/8"
+  log_level: info
+  hostname: "{{ .Release.Name }}"
+  remote_host: "smarthost.example.com"
+  remote_auth: "login"
+
+secret:
+  # -- Existing secret name that contains REMOTE_USER and REMOTE_PASS
+  existingSecret: ""
+  # -- Value for REMOTE_USER
+  remoteUser: ""
+  # -- Value for REMOTE_PASS
+  remotePassword: ""
+
+# -- Additional environment variables (templated)
+extraEnv:
+  OTEL_SDK_DISABLED: "true"
+
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 50m
+  #   memory: 64Mi
+
+livenessProbe:
+  tcpSocket:
+    port: smtp
+  initialDelaySeconds: 5
+  periodSeconds: 10
+
+readinessProbe:
+  tcpSocket:
+    port: smtp
+  initialDelaySeconds: 3
+  periodSeconds: 5
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+serviceMonitor:
+  enabled: false

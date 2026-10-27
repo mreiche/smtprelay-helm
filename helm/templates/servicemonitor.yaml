@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "smtprelay.fullname" . }}
+  labels:
+    {{- include "smtprelay.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "smtprelay.selectorLabels" . | nindent 6 }}
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 30s
