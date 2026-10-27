@@ -1,5 +1,5 @@
 apiVersion: v2
-name: smtprelay-oci
+name: smtprelay
 description: Kubernetes SMTP relay based on decke/smtprelay
 type: application
 version: 0.1.0
