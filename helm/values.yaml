@@ -29,8 +29,8 @@ service:
 
 # Secret smtprelay.ini keys (templated)
 config:
-  listen: "0.0.0.0:{{ .Values.service.port }}"
-  allowed_nets: "10.0.0.0/8 172.16.0.0/12 192.168.0.0/16"
+  listen: "127.0.0.1:{{ .Values.service.port }}"
+  allowed_nets: "10.0.0.0/8"
   log_level: info
   hostname: "{{ .Release.Name }}"
   remote_host: "smarthost.example.com"
