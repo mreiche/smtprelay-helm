@@ -1,0 +1,45 @@
+name: Build Helm chart
+description: Lints, packages, and publishes the Helm chart to GHCR
+inputs:
+  user:
+    required: true
+    description: User for publishing the chart
+  password:
+    required: true
+    description: Password for publishing the chart
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Helm
+      uses: azure/setup-helm@v4
+
+    - name: Lint chart
+      run: helm lint ./helm
+      shell: bash
+
+    - name: Package chart
+      env:
+        EVENT_NAME: ${{ github.event_name }}
+        PR_NUMBER: ${{ github.event.number }}
+      run: |
+        if [ "$EVENT_NAME" = "pull_request" ]; then
+          chart_version="$(awk '/^version:/ { print $2; exit }' ./helm/Chart.yaml)"
+          helm package ./helm --version "${chart_version}-pr.${PR_NUMBER}"
+        else
+          helm package ./helm
+        fi
+      shell: bash
+
+    - name: Log in to the container registry
+      env:
+        HELM_USER: ${{ inputs.user }}
+        HELM_PASSWORD: ${{ inputs.password }}
+      run: printf '%s' "$HELM_PASSWORD" | helm registry login "$REGISTRY" --username "$HELM_USER" --password-stdin
+      shell: bash
+
+    - name: Push chart to GHCR
+      run: |
+        chart_repository="$(printf '%s' "$IMAGE_NAME" | tr '[:upper:]' '[:lower:]')"
+        helm push ./smtprelay-*.tgz "oci://${REGISTRY}/${chart_repository}"
+      shell: bash
