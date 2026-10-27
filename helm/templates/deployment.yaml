@@ -46,8 +46,8 @@ spec:
                 name: {{ ternary (tpl .Values.secret.existingSecret .) (include "smtprelay.fullname" .) (gt (len .Values.secret.existingSecret) 0) }}
           env:
           {{- range $name, $value := .Values.extraEnv }}
-            - name: {{ $name }}
-              value: {{ tpl $value $context }}
+            - name: {{ $name | quote }}
+              value: {{ (tpl $value $context) | quote }}
           {{ end }}
           ports:
             - name: smtp
