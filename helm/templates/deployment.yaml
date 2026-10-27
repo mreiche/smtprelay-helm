@@ -40,6 +40,9 @@ spec:
           args:
             - -config
             - /usr/local/smtprelay.ini
+          envFrom:
+            - secretRef:
+                name: {{ ternary (tpl .Values.secret.existingSecret .) (include "smtprelay.fullname" .) (gt (len .Values.secret.existingSecret) 0) }}
           ports:
             - name: smtp
               containerPort: {{ .Values.service.port }}
@@ -63,8 +66,8 @@ spec:
               readOnly: true
       volumes:
         - name: config
-          secret:
-            secretName: {{ include "smtprelay.fullname" . }}
+          configMap:
+            name: {{ include "smtprelay.fullname" . }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

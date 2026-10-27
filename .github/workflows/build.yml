@@ -3,7 +3,6 @@ name: Build
 env:
   REGISTRY: ghcr.io
   REPO_NAME: ${{ github.repository }}
-  IMAGE_NAME: ${{ github.repository }}
 
 on:
   push:
@@ -21,18 +20,6 @@ permissions:
   pull-requests: write
 
 jobs:
-  build-oci-image:
-    name: Build OCI image
-    runs-on: ubuntu-latest
-    permissions: write-all
-    steps:
-      - uses: actions/checkout@v6
-
-      - uses: ./.github/actions/build-container
-        with:
-          user: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
   build-chart:
     name: Build Helm chart
     runs-on: ubuntu-latest

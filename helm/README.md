@@ -16,7 +16,7 @@ Minimal Helm chart for [decke/smtprelay](https://github.com/decke/smtprelay) usi
 | `config.allowed_nets` | RFC1918 CIDRs | Networks allowed to submit mail |
 | `config.log_level` | `info` | Log level |
 | `config.hostname` | `{{ .Release.Name }}` | Relay hostname |
-| `config.remotes` | `"starttls://user:pass@server:587?skipVerify"` | Remotes configuration |
+| `config.remote_host` | `"smarthost.example.com"` | Remote host |
 | `resources` | `{}` | Container resources. |
 | `livenessProbe` / `readinessProbe` | TCP on `smtp` | Probes against the listen port |
 | `securityContext` | `{}` | Container security context |
