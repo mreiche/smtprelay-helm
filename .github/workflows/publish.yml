@@ -1,0 +1,28 @@
+name: Publish
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+jobs:
+  publish-helm-chart:
+    name: Publish Helm chart
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - uses: actions/checkout@v6
+      - name: Detect version
+        id: version
+        uses: reiche-world/actions/determine-version@main
+      - uses: reiche-world/actions/publish-helm-chart@main
+        with:
+          user: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          chartPath: ./helm
+          chartVersion: ${{ steps.version.outputs.tag }}
+          appVersion: ${{ steps.version.outputs.tag }}

@@ -3,8 +3,8 @@ replicaCount: 1
 image:
   repository: docker.io/grafana/smtprelay
   pullPolicy: IfNotPresent
-  # Defaults to Chart.appVersion when empty
-  tag: 2.5.4
+  # -- Image tag (defaults to appVersion)
+  tag: ~
 
 imagePullSecrets: []
 nameOverride: ""
@@ -25,6 +25,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
+  # -- Service port
   port: 2525
 
 # Secret smtprelay.ini keys (templated)
@@ -44,8 +45,8 @@ secret:
   # -- Value for REMOTE_PASS
   remotePassword: ""
 
-# -- Additional environment variables (templated)
-extraEnv:
+# -- Additional environment variables key:value pairs (templated)
+env:
   OTEL_SDK_DISABLED: "true"
 
 resources: {}
@@ -73,4 +74,10 @@ tolerations: []
 affinity: {}
 
 serviceMonitor:
+  # -- Whether to create ServiceMonitor resource
   enabled: false
+
+# -- Extra volumes (see [volumes](#volumes))
+volumes: []
+# -- Extra volume mounts (see [volumeMounts](#volumeMounts))
+volumeMounts: []
