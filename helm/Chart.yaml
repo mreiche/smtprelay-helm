@@ -1,6 +1,6 @@
 apiVersion: v2
 name: smtprelay
-description: Kubernetes SMTP relay based on decke/smtprelay
+description: SMTP relay based on grafana/smtprelay
 type: application
 version: 0.1.0
-appVersion: "1.14.0"
+appVersion: "2.5.4"

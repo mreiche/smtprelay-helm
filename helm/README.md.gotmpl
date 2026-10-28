@@ -1,0 +1,28 @@
+{{ template "chart.header" . }}
+{{ template "chart.description" . }}
+
+{{ .Files.Get "index.md" }}
+
+{{ template "chart.requirementsSection" . }}
+
+{{ template "chart.valuesSection" . }}
+
+## volumes
+
+```yaml
+volumes:
+  - name: certs
+    secret:
+      secretName: tls
+```
+
+## volumeMounts
+
+```yaml
+volumeMounts:
+  - name: certs
+    mountPath: /app/certs
+    readOnly: true
+```
+
+{{ template "helm-docs.versionFooter" . }}
