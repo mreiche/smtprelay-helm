@@ -1,6 +1,6 @@
 # smtprelay
 
-SMTP relay based on grafana/smtprelay
+Inofficial community-maintained Helm chart for [grafana/smtprelay](https://github.com/grafana/smtprelay)
 
 ## Values
 
