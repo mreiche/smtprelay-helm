@@ -19,10 +19,9 @@ jobs:
       - name: Detect version
         id: version
         uses: reiche-world/actions/determine-version@main
-      - uses: reiche-world/actions/publish-helm-chart@main
+      - uses: reiche-world/actions/publish-helm-chart@feat/optional-app-version
         with:
           user: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           chartPath: ./helm
           chartVersion: ${{ steps.version.outputs.tag }}
-          appVersion: ${{ steps.version.outputs.tag }}
