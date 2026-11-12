@@ -1,0 +1,27 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "ci"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "github-actions"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "helm"
+    directory: "/helm"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "helm"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "helm"
