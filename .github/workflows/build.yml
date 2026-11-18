@@ -21,13 +21,13 @@ permissions:
 
 jobs:
   build-chart:
-    name: Build Helm chart
+    name: Test Helm chart
     runs-on: ubuntu-latest
     permissions: write-all
     steps:
       - uses: actions/checkout@v7
 
-      - uses: ./.github/actions/build-chart
+      - uses: ./.github/actions/test-chart
         with:
           user: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
