@@ -26,8 +26,4 @@ jobs:
     permissions: write-all
     steps:
       - uses: actions/checkout@v7
-
       - uses: ./.github/actions/test-chart
-        with:
-          user: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
