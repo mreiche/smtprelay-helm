@@ -1,0 +1,76 @@
+suite: Test Name and Fullname Overrides
+templates:
+  - templates/deployment.yaml
+  - templates/service.yaml
+  - templates/configmap.yaml
+
+tests:
+  - it: should apply nameOverride correctly
+    set:
+      nameOverride: custom-name
+    asserts:
+      - equal:
+          path: metadata.name
+          value: RELEASE-NAME-custom-name
+      - equal:
+          path: metadata.labels["app.kubernetes.io/name"]
+          value: custom-name
+      - equal:
+          path: spec.selector.matchLabels["app.kubernetes.io/name"]
+          value: custom-name
+        template: templates/deployment.yaml
+      - equal:
+          path: spec.template.metadata.labels["app.kubernetes.io/name"]
+          value: custom-name
+        template: templates/deployment.yaml
+      - equal:
+          path: spec.template.spec.volumes[0].configMap.name
+          value: RELEASE-NAME-custom-name
+        template: templates/deployment.yaml
+      - equal:
+          path: spec.selector["app.kubernetes.io/name"]
+          value: custom-name
+        template: templates/service.yaml
+
+  - it: should apply fullnameOverride correctly
+    set:
+      fullnameOverride: custom-fullname
+    asserts:
+      - equal:
+          path: metadata.name
+          value: custom-fullname
+      - equal:
+          path: metadata.labels["app.kubernetes.io/name"]
+          value: smtprelay
+      - equal:
+          path: spec.template.spec.volumes[0].configMap.name
+          value: custom-fullname
+        template: templates/deployment.yaml
+
+  - it: should prioritize fullnameOverride over nameOverride for resource name while keeping nameOverride in labels
+    set:
+      nameOverride: custom-name
+      fullnameOverride: custom-fullname
+    asserts:
+      - equal:
+          path: metadata.name
+          value: custom-fullname
+      - equal:
+          path: metadata.labels["app.kubernetes.io/name"]
+          value: custom-name
+      - equal:
+          path: spec.selector.matchLabels["app.kubernetes.io/name"]
+          value: custom-name
+        template: templates/deployment.yaml
+      - equal:
+          path: spec.selector["app.kubernetes.io/name"]
+          value: custom-name
+        template: templates/service.yaml
+
+  - it: should not repeat chart name in fullname if release name contains it
+    release:
+      name: my-smtprelay
+    asserts:
+      - equal:
+          path: metadata.name
+          value: my-smtprelay

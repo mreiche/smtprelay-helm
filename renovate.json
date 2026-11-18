@@ -1,0 +1,32 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "labels": [
+    "dependencies"
+  ],
+  "packageRules": [
+    {
+      "matchManagers": ["github-actions"],
+      "commitMessagePrefix": "ci:"
+    },
+    {
+      "matchManagers": ["helmv3", "helm-values", "custom.regex"],
+      "commitMessagePrefix": "helm:"
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "(^|/)Chart\\.yaml$"
+      ],
+      "matchStrings": [
+        "appVersion:\\s*[\"']?(?<currentValue>[^\"'\\s]+)[\"']?"
+      ],
+      "depNameTemplate": "docker.io/grafana/smtprelay",
+      "datasourceTemplate": "docker"
+    }
+  ]
+}
