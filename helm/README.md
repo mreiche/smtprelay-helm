@@ -38,10 +38,6 @@ Inofficial community-maintained Helm chart for [grafana/smtprelay](https://githu
 | securityContext | object | `{}` |  |
 | service.port | int | `2525` | Service port |
 | service.type | string | `"ClusterIP"` |  |
-| serviceAccount.annotations | object | `{}` |  |
-| serviceAccount.automount | bool | `false` |  |
-| serviceAccount.create | bool | `false` |  |
-| serviceAccount.name | string | `""` |  |
 | serviceMonitor.enabled | bool | `false` | Whether to create ServiceMonitor resource |
 | tolerations | list | `[]` |  |
 | volumeMounts | list | `[]` | Extra volume mounts (see [volumeMounts](#volumeMounts)) |
